@@ -1,5 +1,5 @@
 import random
-
+#Tykhon Byshkin and Mohammad Khan 
 def start_game():
 
     colours = ("Red","Yellow", "Green", "Blue")
