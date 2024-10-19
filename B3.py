@@ -50,7 +50,9 @@ def main_loop(p1, p2, deck, central_deck, whose_turn):
             p2.append(deck.pop(0))
         if deck==[]:
             deck=central_deck
+            central_deck.clear()
             random.shuffle(deck)
+            central_deck=[deck.pop(0)]
         p1,p2 = p2,p1
         whose_turn = (whose_turn + 1) % 2
         
