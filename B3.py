@@ -41,11 +41,11 @@ def main_loop(p1, p2, deck, central_deck, whose_turn):
 
             if valid:
                 central_deck.insert(0, p1.pop(player_choice))
-                # Check if player has only one card left
+                
             # Check if player has only one card left
             if len(p1) == 1:
                 uno_call = input("You have only one card left! Say 'UNO': ")
-                if uno_call != "UNO":  # Case-sensitive and no extra trimming
+                if uno_call != "UNO":  
                     print("You didn't say 'UNO'! Drawing two penalty cards...")
                     p1.append(deck.pop(0))
                     p1.append(deck.pop(0))
