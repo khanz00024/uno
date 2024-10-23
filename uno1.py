@@ -61,7 +61,14 @@ def main_loop(p1, p2, deck, central_deck, whose_turn):
         if central_deck[0][0] == "+2":
             p2.append(deck.pop(0))
             p2.append(deck.pop(0))
+        if central_deck[0]=="change colour":
+            color_choice=input("Choose a colour:")
+            colours = ("Red", "Yellow", "Green", "Blue")
 
+            while not color_choice in colours:
+                color_choice=input("Choose a valid colour:")
+            central_deck[0]==( None,color_choice)    
+                
         if deck == []:
             deck = central_deck
             central_deck.clear()
