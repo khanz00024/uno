@@ -6,14 +6,25 @@ def start_game():
     colours = ("Red","Yellow", "Green", "Blue")
     ranks = list(range(1,11))
     actions=["skip turn","+2"]
-    deck = [(rank, colour) for rank in ranks for colour in colours]+[(action,colour)for colour in colours for action in actions]
+    deck = [(rank, colour) for rank in ranks for colour in colours]+[(action,colour)for colour in colours for action in actions]+["change colour"for _ in range(2)]
     random.shuffle(deck)
     p1 = [deck.pop(0) for _ in range (7)]
     p2 = [deck.pop(0) for _ in range (7)]
-    central_deck = [deck.pop(0)]
-    main_loop(p1, p2, deck, central_deck, 0)
+     # first card cannot be special
+    if deck[0] == "Change Color":
+        for i in deck:
+            if i != "Change Color":
+                currentdeck= [deck.pop(deck.index(i))]
+    # another solution
+    # p1 = [deck.pop(0) for jag in range(7) ]
+    # p2 = [deck.pop(0) for jag in range(7) ]
 
-def main_loop(p1, p2, deck, central_deck, whose_turn):
+    else:
+            currentdeck =[ deck.pop(0)]
+    
+    main_loop(p1, p2, deck, currentdeck, 0, colours)
+
+def main_loop(p1, p2, deck, central_deck, whose_turn,colours):
     while len(p1)>0 and len(p2)>0:
         print(f"Player {whose_turn + 1}'s turn, here is your hand {p1}")
         print(f"Central card is: {central_deck[0]}")
@@ -38,8 +49,17 @@ def main_loop(p1, p2, deck, central_deck, whose_turn):
             while not valid:
                 player_choice = int(input("which card to play? "))-1
                 valid = valid_play(central_deck[0], p1[player_choice])
-
-            if valid:
+            if valid == "Change Colour":
+                colorToChange = "a"
+            # .capitalize() avoids the input being case-sensitive
+                while colorToChange not in colours:
+                    colorToChange = input("Which color to change to (Red, Yellow, Green, Blue)? ")
+                    time.sleep(1)
+                if colorToChange in colours:                        
+                    p1.pop(player_choice)
+                    central_deck.insert(0,(None,colorToChange))
+    
+            elif valid:
                 central_deck.insert(0, p1.pop(player_choice))
                 
             # Check if player has only one card left
@@ -66,8 +86,10 @@ def main_loop(p1, p2, deck, central_deck, whose_turn):
         if central_deck[0][0]=="skip turn":
             whose_turn+=1
         whose_turn = (whose_turn + 1) % 2
-        
+    print(f"player {whose_turn} won")     
 def valid_play(card1, card2):
+    if card2=="change colour":
+        return "Change Colour"
     return card1[0] == card2[0] or card1[1] == card2[1]
 start_game()
 
